@@ -84,7 +84,7 @@ export const Hero = () => {
           {isArabic ? (
             <>
               <h1 className="text-6xl md:text-8xl font-bold text-white mb-6 leading-tight">
-                <span className="gradient-text">عالم المنير</span>
+                <span className="gradient-text">عالم المنبر</span>
               </h1>
               <h2 className="text-2xl md:text-3xl text-almanbar-gold mb-4 font-english">
                 ALMANBAR WORLD
@@ -102,7 +102,7 @@ export const Hero = () => {
                 <span className="gradient-text">ALMANBAR WORLD</span>
               </h1>
               <h2 className="text-2xl md:text-3xl text-almanbar-gold mb-4">
-                عالم المنير
+                عالم المنبر
               </h2>
               <p className="text-xl md:text-2xl text-gray-200 mb-8 max-w-4xl mx-auto leading-relaxed font-english">
                 We craft inspiring stories and create exceptional content that speaks for your brand

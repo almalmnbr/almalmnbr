@@ -51,7 +51,7 @@ export const About = () => {
             
             <p className="text-lg text-gray-700 mb-6 leading-relaxed">
               {isArabic 
-                ? 'عالم المنير هي شركة رائدة في مجال الإنتاج الإعلامي والإعلان، نسعى لتقديم حلول إبداعية ومبتكرة تساعد عملاءنا على تحقيق أهدافهم التجارية وبناء حضور قوي في السوق.'
+                ? 'عالم المنبر هي شركة رائدة في مجال الإنتاج الإعلامي والإعلان، نسعى لتقديم حلول إبداعية ومبتكرة تساعد عملاءنا على تحقيق أهدافهم التجارية وبناء حضور قوي في السوق.'
                 : 'ALMANBAR WORLD is a leading company in media production and advertising, striving to provide creative and innovative solutions that help our clients achieve their business goals and build a strong market presence.'
               }
             </p>

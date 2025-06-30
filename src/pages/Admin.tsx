@@ -37,7 +37,7 @@ const Admin = () => {
                 <span className="text-white font-bold text-lg">ع</span>
               </div>
               <h1 className="text-2xl font-bold text-almanbar-navy bg-gradient-to-r from-almanbar-navy to-almanbar-gold bg-clip-text text-transparent">
-                لوحة التحكم - عالم المنير
+                لوحة التحكم - عالم المنبر
               </h1>
             </div>
             <div className="flex items-center gap-4">

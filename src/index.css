@@ -7,7 +7,8 @@
 
 @layer base {
   :root {
-    --background: 255 255 255;
+    --background: rgb(99, 98, 98);
+
     --foreground: 16 31 63;
 
     --card: 255 255 255;
@@ -48,7 +49,7 @@
   }
 
   .dark {
-    --background: 16 31 63;
+    --background: rgb(99, 98, 98);
     --foreground: 255 255 255;
 
     --card: 30 58 95;
@@ -116,8 +117,6 @@
     @apply backdrop-blur-md bg-white/10 border border-white/20 rounded-xl;
   }
 
-  .gradient-text {
-    @apply bg-gradient-to-r from-almanbar-gold to-almanbar-gold-light bg-clip-text text-transparent;
-  }
+  
 }
   

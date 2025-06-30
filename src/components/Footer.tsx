@@ -38,7 +38,7 @@ export const Footer = () => {
           <div className="animate-fade-in">
             <div className="mb-6">
               <h3 className="text-2xl font-bold text-almanbar-gold mb-2">
-                {isArabic ? 'عالم المنير' : 'ALMANBAR WORLD'}
+                {isArabic ? 'عالم المنبر' : 'ALMANBAR WORLD'}
               </h3>
               <p className="text-gray-300 leading-relaxed">
                 {isArabic 
@@ -143,7 +143,7 @@ export const Footer = () => {
         <div className="border-t border-white/20 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="text-gray-300 text-center md:text-left">
-              <p>&copy; 2024 {isArabic ? 'عالم المنير' : 'ALMANBAR WORLD'}. {isArabic ? 'جميع الحقوق محفوظة.' : 'All rights reserved.'}</p>
+              <p>&copy; 2024 {isArabic ? 'عالم المنبر' : 'ALMANBAR WORLD'}. {isArabic ? 'جميع الحقوق محفوظة.' : 'All rights reserved.'}</p>
             </div>
             
             <div className="flex gap-4">
