@@ -1,8 +1,8 @@
-
-import { useState } from 'react';
+import { useState, forwardRef } from 'react';
 import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin, Youtube, Twitter } from 'lucide-react';
 
-export const Footer = () => {
+// Use forwardRef to allow external access to the footer DOM node
+export const Footer = forwardRef<HTMLDivElement>((_, ref) => {
   const [isArabic, setIsArabic] = useState(true);
   const [email, setEmail] = useState('');
 
@@ -21,7 +21,7 @@ export const Footer = () => {
   ];
 
   return (
-    <footer className="bg-almanbar-navy text-white relative overflow-hidden">
+    <footer ref={ref} className="bg-almanbar-navy text-white relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div 
@@ -43,11 +43,10 @@ export const Footer = () => {
               <p className="text-gray-300 leading-relaxed">
                 {isArabic 
                   ? 'شركة رائدة في مجال الإنتاج الإعلامي والإعلان، نسعى لتقديم حلول إبداعية ومبتكرة.'
-                  : 'A leading company in media production and advertising, striving to provide creative and innovative solutions.'
-                }
+                  : 'A leading company in media production and advertising, striving to provide creative and innovative solutions.'}
               </p>
             </div>
-            
+
             <div className="space-y-3">
               <div className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-almanbar-gold" />
@@ -72,18 +71,10 @@ export const Footer = () => {
               {isArabic ? 'خدماتنا' : 'Our Services'}
             </h4>
             <ul className="space-y-3">
-              <li><a href="#" className="text-gray-300 hover:text-almanbar-gold transition-colors duration-300">
-                {isArabic ? 'إنتاج الوسائط' : 'Media Production'}
-              </a></li>
-              <li><a href="#" className="text-gray-300 hover:text-almanbar-gold transition-colors duration-300">
-                {isArabic ? 'التصوير الفوتوغرافي' : 'Photography'}
-              </a></li>
-              <li><a href="#" className="text-gray-300 hover:text-almanbar-gold transition-colors duration-300">
-                {isArabic ? 'الهوية التجارية' : 'Brand Identity'}
-              </a></li>
-              <li><a href="#" className="text-gray-300 hover:text-almanbar-gold transition-colors duration-300">
-                {isArabic ? 'التسويق الرقمي' : 'Digital Marketing'}
-              </a></li>
+              <li><a href="#" className="text-gray-300 hover:text-almanbar-gold transition-colors duration-300">{isArabic ? 'إنتاج الوسائط' : 'Media Production'}</a></li>
+              <li><a href="#" className="text-gray-300 hover:text-almanbar-gold transition-colors duration-300">{isArabic ? 'التصوير الفوتوغرافي' : 'Photography'}</a></li>
+              <li><a href="#" className="text-gray-300 hover:text-almanbar-gold transition-colors duration-300">{isArabic ? 'الهوية التجارية' : 'Brand Identity'}</a></li>
+              <li><a href="#" className="text-gray-300 hover:text-almanbar-gold transition-colors duration-300">{isArabic ? 'التسويق الرقمي' : 'Digital Marketing'}</a></li>
             </ul>
           </div>
 
@@ -93,18 +84,10 @@ export const Footer = () => {
               {isArabic ? 'روابط سريعة' : 'Quick Links'}
             </h4>
             <ul className="space-y-3">
-              <li><a href="#" className="text-gray-300 hover:text-almanbar-gold transition-colors duration-300">
-                {isArabic ? 'الرئيسية' : 'Home'}
-              </a></li>
-              <li><a href="#" className="text-gray-300 hover:text-almanbar-gold transition-colors duration-300">
-                {isArabic ? 'من نحن' : 'About Us'}
-              </a></li>
-              <li><a href="#" className="text-gray-300 hover:text-almanbar-gold transition-colors duration-300">
-                {isArabic ? 'أعمالنا' : 'Portfolio'}
-              </a></li>
-              <li><a href="#" className="text-gray-300 hover:text-almanbar-gold transition-colors duration-300">
-                {isArabic ? 'تواصل معنا' : 'Contact'}
-              </a></li>
+              <li><a href="#" className="text-gray-300 hover:text-almanbar-gold transition-colors duration-300">{isArabic ? 'الرئيسية' : 'Home'}</a></li>
+              <li><a href="#" className="text-gray-300 hover:text-almanbar-gold transition-colors duration-300">{isArabic ? 'من نحن' : 'About Us'}</a></li>
+              <li><a href="#" className="text-gray-300 hover:text-almanbar-gold transition-colors duration-300">{isArabic ? 'أعمالنا' : 'Portfolio'}</a></li>
+              <li><a href="#" className="text-gray-300 hover:text-almanbar-gold transition-colors duration-300">{isArabic ? 'تواصل معنا' : 'Contact'}</a></li>
             </ul>
           </div>
 
@@ -116,10 +99,9 @@ export const Footer = () => {
             <p className="text-gray-300 mb-4">
               {isArabic 
                 ? 'اشترك في نشرتنا الإخبارية للحصول على آخر الأخبار والعروض'
-                : 'Subscribe to our newsletter for the latest news and offers'
-              }
+                : 'Subscribe to our newsletter for the latest news and offers'}
             </p>
-            
+
             <form onSubmit={handleNewsletterSubmit} className="space-y-3">
               <input
                 type="email"
@@ -145,7 +127,7 @@ export const Footer = () => {
             <div className="text-gray-300 text-center md:text-left">
               <p>&copy; 2024 {isArabic ? 'عالم المنبر' : 'ALMANBAR WORLD'}. {isArabic ? 'جميع الحقوق محفوظة.' : 'All rights reserved.'}</p>
             </div>
-            
+
             <div className="flex gap-4">
               {socialLinks.map((social, index) => (
                 <a
@@ -165,4 +147,4 @@ export const Footer = () => {
       </div>
     </footer>
   );
-};
+});

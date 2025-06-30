@@ -1,17 +1,24 @@
-// Hero.tsx
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Play } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { Link } from 'react-router-dom';
 
-export const Hero = () => {
+interface HeroProps {
+  footerRef: React.RefObject<HTMLElement>;
+}
+
+export const Hero = ({ footerRef }: HeroProps) => {
   const [isArabic, setIsArabic] = useState(true);
-  const { user, signOut, isAdmin } = useAuth();  // Destructure `signOut` from `useAuth`
+  const { user, signOut, isAdmin } = useAuth();
+
+  const scrollToFooter = () => {
+    footerRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Animated Background */}
+      {/* Background Gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-almanbar-navy via-almanbar-navy-light to-almanbar-navy-dark">
         <div 
           className="absolute inset-0 animate-float"
@@ -32,23 +39,29 @@ export const Hero = () => {
         </Button>
       </div>
 
-      {/* Admin Link */}
-      {user && isAdmin && (
-        <div className="absolute top-6 left-6 z-20">
-          <Link to="/admin">
+      {/* Admin or Auth Links */}
+      <div className="absolute top-6 left-6 z-20 flex gap-2">
+        {user ? (
+          <>
+            {isAdmin && (
+              <Link to="/admin">
+                <Button
+                  variant="outline"
+                  className="bg-white/10 backdrop-blur-md border-white/20 text-white hover:bg-white/20"
+                >
+                  لوحة التحكم
+                </Button>
+              </Link>
+            )}
             <Button
               variant="outline"
+              onClick={signOut}
               className="bg-white/10 backdrop-blur-md border-white/20 text-white hover:bg-white/20"
             >
-              لوحة التحكم
+              تسجيل الخروج
             </Button>
-          </Link>
-        </div>
-      )}
-
-      {/* Auth Links */}
-      {!user ? (
-        <div className="absolute top-6 left-6 z-20">
+          </>
+        ) : (
           <Link to="/auth">
             <Button
               variant="outline"
@@ -57,26 +70,8 @@ export const Hero = () => {
               تسجيل الدخول
             </Button>
           </Link>
-        </div>
-      ) : (
-        <div className="absolute top-6 left-6 z-20">
-                    <Link to="/admin">
-            <Button
-              variant="outline"
-              className="bg-white/10 backdrop-blur-md border-white/20 text-white hover:bg-white/20"
-            >
-              لوحة التحكم
-            </Button>
-          </Link>
-          <Button
-            variant="outline"
-            onClick={signOut}
-            className="bg-white/10 backdrop-blur-md border-white/20 text-white hover:bg-white/20"
-          >
-            تسجيل الخروج
-          </Button>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* Hero Content */}
       <div className="relative z-10 text-center px-4 max-w-6xl mx-auto">
@@ -86,9 +81,7 @@ export const Hero = () => {
               <h1 className="text-6xl md:text-8xl font-bold text-white mb-6 leading-tight">
                 <span className="gradient-text">عالم المنبر</span>
               </h1>
-              <h2 className="text-2xl md:text-3xl text-almanbar-gold mb-4 font-english">
-                ALMANBAR WORLD
-              </h2>
+              <h2 className="text-2xl md:text-3xl text-almanbar-gold mb-4 font-english">ALMANBAR WORLD</h2>
               <p className="text-xl md:text-2xl text-gray-200 mb-8 max-w-4xl mx-auto leading-relaxed">
                 نحن نصنع قصصاً تلهم ونبدع محتوى يتحدث عن علامتكم التجارية بطريقة استثنائية
               </p>
@@ -101,9 +94,7 @@ export const Hero = () => {
               <h1 className="text-6xl md:text-8xl font-bold text-white mb-6 leading-tight font-english">
                 <span className="gradient-text">ALMANBAR WORLD</span>
               </h1>
-              <h2 className="text-2xl md:text-3xl text-almanbar-gold mb-4">
-                عالم المنبر
-              </h2>
+              <h2 className="text-2xl md:text-3xl text-almanbar-gold mb-4">عالم المنبر</h2>
               <p className="text-xl md:text-2xl text-gray-200 mb-8 max-w-4xl mx-auto leading-relaxed font-english">
                 We craft inspiring stories and create exceptional content that speaks for your brand
               </p>
@@ -116,18 +107,22 @@ export const Hero = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Button
               size="lg"
+              onClick={scrollToFooter}
               className="bg-almanbar-gold hover:bg-almanbar-gold-dark text-almanbar-navy px-8 py-4 text-lg font-semibold transition-all duration-300 transform hover:scale-105"
             >
               {isArabic ? 'تواصل معنا' : 'Contact Us'}
             </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              className="border-2 border-almanbar-gold text-almanbar-gold hover:bg-almanbar-gold hover:text-almanbar-navy px-8 py-4 text-lg font-semibold transition-all duration-300 transform hover:scale-105"
-            >
-              <Play className="w-5 h-5 mr-2" />
-              {isArabic ? 'أعمالنا' : 'Our Portfolio'}
-            </Button>
+          <Button
+  asChild
+  variant="outline"
+  size="lg"
+  className="border-2 border-almanbar-gold text-almanbar-gold hover:bg-almanbar-gold hover:text-almanbar-navy px-8 py-4 text-lg font-semibold transition-all duration-300 transform hover:scale-105"
+>
+  <Link to="/projects" className="flex items-center">
+    <Play className="w-5 h-5 mr-2" />
+    {isArabic ? 'أعمالنا' : 'Our Portfolio'}
+  </Link>
+</Button>
           </div>
         </div>
       </div>

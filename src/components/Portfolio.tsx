@@ -1,12 +1,13 @@
-
 import { useState } from 'react';
 import { Play, ExternalLink } from 'lucide-react';
 import { useProjects } from '@/hooks/useProjects';
+import { useNavigate } from 'react-router-dom';
 
 export const Portfolio = () => {
   const [isArabic, setIsArabic] = useState(true);
   const [filter, setFilter] = useState('all');
   const { data: projects, isLoading, error } = useProjects();
+  const navigate = useNavigate();
 
   const categories = [
     { id: 'all', nameAr: 'الكل', nameEn: 'All' },
@@ -139,7 +140,10 @@ export const Portfolio = () => {
         </div>
 
         <div className="text-center mt-12">
-          <button className="bg-almanbar-gold hover:bg-almanbar-gold-dark text-almanbar-navy px-8 py-4 rounded-full font-semibold transition-all duration-300 transform hover:scale-105">
+          <button
+            onClick={() => navigate('/projects')}
+            className="bg-almanbar-gold hover:bg-almanbar-gold-dark text-almanbar-navy px-8 py-4 rounded-full font-semibold transition-all duration-300 transform hover:scale-105"
+          >
             {isArabic ? 'عرض جميع الأعمال' : 'View All Projects'}
           </button>
         </div>
