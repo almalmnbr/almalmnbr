@@ -68,7 +68,8 @@ const Admin = () => {
             <TabsList className="grid w-full grid-cols-4 gap-1 bg-gray-50">
               <TabsTrigger 
                 value="services" 
-                className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-almanbar-gold"
+                className="flex items-center gap-2 px-3 py-2 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-md transition
+            data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-almanbar-gold"
               >
                 <Settings className="w-4 h-4" />
                 <span>الخدمات</span>
@@ -82,7 +83,8 @@ const Admin = () => {
               </TabsTrigger>
               <TabsTrigger 
                 value="partners" 
-                className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-almanbar-gold"
+                className="flex items-center gap-2 px-3 py-2 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-md transition
+            data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-almanbar-gold"
               >
                 <Users className="w-4 h-4" />
                 <span>الشركاء</span>
