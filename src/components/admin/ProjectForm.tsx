@@ -1,3 +1,4 @@
+'use client';
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -24,13 +25,57 @@ export const ProjectForm = ({ project, onClose, onSuccess }: ProjectFormProps) =
     description_en: project?.description_en || '',
     category_ar: project?.category_ar || '',
     category_en: project?.category_en || '',
-    image_url: project?.image_url || '',
     featured: project?.featured || false,
     service_id: project?.service_id || '',
     display_order: project?.display_order || 0,
   });
+
+  const [mediaFiles, setMediaFiles] = useState<File[]>([]);
+  const [youtubeLinks, setYoutubeLinks] = useState<string[]>(['']);
   const [isLoading, setIsLoading] = useState(false);
   const { data: services } = useServices();
+
+  const handleChange = (field: string, value: any) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const sanitizeFileName = (name: string) => {
+    return name.replace(/[^a-zA-Z0-9.\-_]/g, '_');
+  };
+
+  const convertImageToWebp = (file: File): Promise<Blob> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+
+      reader.onload = () => {
+        const img = new Image();
+        img.src = reader.result as string;
+
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          canvas.width = img.width;
+          canvas.height = img.height;
+
+          const ctx = canvas.getContext('2d');
+          if (!ctx) return reject('Canvas context not available');
+          ctx.drawImage(img, 0, 0);
+
+          canvas.toBlob((blob) => {
+            if (blob) {
+              resolve(blob);
+            } else {
+              reject('Failed to convert to webp');
+            }
+          }, 'image/webp', 0.9);
+        };
+
+        img.onerror = reject;
+      };
+
+      reader.onerror = reject;
+    });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,35 +87,83 @@ export const ProjectForm = ({ project, onClose, onSuccess }: ProjectFormProps) =
         service_id: formData.service_id || null,
       };
 
-      if (project) {
-        // Update existing project
+      let projectId = project?.id;
+
+      if (projectId) {
         const { error } = await supabase
           .from('projects')
           .update({ ...dataToSave, updated_at: new Date().toISOString() })
-          .eq('id', project.id);
-
+          .eq('id', projectId);
         if (error) throw error;
-        toast.success('تم تحديث المشروع بنجاح');
       } else {
-        // Create new project
-        const { error } = await supabase
+        const { data, error } = await supabase
           .from('projects')
-          .insert([dataToSave]);
+          .insert([dataToSave])
+          .select()
+          .single();
 
         if (error) throw error;
-        toast.success('تم إضافة المشروع بنجاح');
+        projectId = data.id;
       }
 
+      const uploadedMedia: { type: string; url: string; description: string }[] = [];
+
+      for (const file of mediaFiles) {
+        const safeFileName = sanitizeFileName(file.name).replace(/\.\w+$/, '.webp');
+        const filePath = `${projectId}/image_${Date.now()}_${safeFileName}`;
+        const webpBlob = await convertImageToWebp(file);
+
+        const { error: uploadError } = await supabase.storage
+          .from('uploads')
+          .upload(filePath, webpBlob, {
+            contentType: 'image/webp',
+          });
+
+        if (uploadError) {
+          toast.error(`فشل رفع الصورة ${file.name}`);
+          continue;
+        }
+
+        const { data: urlData } = supabase.storage
+          .from('uploads')
+          .getPublicUrl(filePath);
+
+        uploadedMedia.push({
+          type: 'image',
+          url: urlData.publicUrl,
+          description: '',
+        });
+      }
+
+      youtubeLinks.filter(link => link.trim() !== '').forEach(link => {
+        uploadedMedia.push({
+          type: 'youtube',
+          url: link.trim(),
+          description: '',
+        });
+      });
+
+      if (uploadedMedia.length > 0) {
+        const inserts = uploadedMedia.map(media => ({
+          ...media,
+          project_id: projectId,
+          created_at: new Date().toISOString(),
+        }));
+
+        const { error: mediaError } = await supabase
+          .from('project_media')
+          .insert(inserts);
+
+        if (mediaError) throw mediaError;
+      }
+
+      toast.success(project ? 'تم التحديث بنجاح' : 'تم الإضافة بنجاح');
       onSuccess();
     } catch (error: any) {
-      toast.error('خطأ في حفظ المشروع: ' + error.message);
+      toast.error('حدث خطأ: ' + error.message);
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const handleChange = (field: string, value: any) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
   };
 
   return (
@@ -85,71 +178,40 @@ export const ProjectForm = ({ project, onClose, onSuccess }: ProjectFormProps) =
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <Label htmlFor="title_ar">العنوان بالعربية</Label>
-              <Input
-                id="title_ar"
-                value={formData.title_ar}
-                onChange={(e) => handleChange('title_ar', e.target.value)}
-                required
-              />
+              <Input id="title_ar" value={formData.title_ar} onChange={(e) => handleChange('title_ar', e.target.value)} required />
             </div>
             <div>
               <Label htmlFor="title_en">العنوان بالإنجليزية</Label>
-              <Input
-                id="title_en"
-                value={formData.title_en}
-                onChange={(e) => handleChange('title_en', e.target.value)}
-                required
-              />
+              <Input id="title_en" value={formData.title_en} onChange={(e) => handleChange('title_en', e.target.value)} required />
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <Label htmlFor="category_ar">التصنيف بالعربية</Label>
-              <Input
-                id="category_ar"
-                value={formData.category_ar}
-                onChange={(e) => handleChange('category_ar', e.target.value)}
-              />
+              <Input id="category_ar" value={formData.category_ar} onChange={(e) => handleChange('category_ar', e.target.value)} />
             </div>
             <div>
               <Label htmlFor="category_en">التصنيف بالإنجليزية</Label>
-              <Input
-                id="category_en"
-                value={formData.category_en}
-                onChange={(e) => handleChange('category_en', e.target.value)}
-              />
+              <Input id="category_en" value={formData.category_en} onChange={(e) => handleChange('category_en', e.target.value)} />
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <Label htmlFor="description_ar">الوصف بالعربية</Label>
-              <Textarea
-                id="description_ar"
-                value={formData.description_ar}
-                onChange={(e) => handleChange('description_ar', e.target.value)}
-              />
+              <Textarea id="description_ar" value={formData.description_ar} onChange={(e) => handleChange('description_ar', e.target.value)} />
             </div>
             <div>
               <Label htmlFor="description_en">الوصف بالإنجليزية</Label>
-              <Textarea
-                id="description_en"
-                value={formData.description_en}
-                onChange={(e) => handleChange('description_en', e.target.value)}
-              />
+              <Textarea id="description_en" value={formData.description_en} onChange={(e) => handleChange('description_en', e.target.value)} />
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <Label htmlFor="service_id">الخدمة المرتبطة</Label>
-              <select
-                id="service_id"
-                value={formData.service_id}
-                onChange={(e) => handleChange('service_id', e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded-md"
-              >
+              <select id="service_id" value={formData.service_id} onChange={(e) => handleChange('service_id', e.target.value)} className="w-full p-2 border rounded-md">
                 <option value="">بدون خدمة</option>
                 {services?.map(service => (
                   <option key={service.id} value={service.id}>
@@ -160,46 +222,50 @@ export const ProjectForm = ({ project, onClose, onSuccess }: ProjectFormProps) =
             </div>
             <div>
               <Label htmlFor="display_order">ترتيب العرض</Label>
-              <Input
-                id="display_order"
-                type="number"
-                value={formData.display_order}
-                onChange={(e) => handleChange('display_order', parseInt(e.target.value) || 0)}
-              />
+              <Input id="display_order" type="number" value={formData.display_order} onChange={(e) => handleChange('display_order', parseInt(e.target.value) || 0)} />
             </div>
             <div className="flex items-center space-x-2">
-              <Switch
-                id="featured"
-                checked={formData.featured}
-                onCheckedChange={(checked) => handleChange('featured', checked)}
-              />
+              <Switch id="featured" checked={formData.featured} onCheckedChange={(checked) => handleChange('featured', checked)} />
               <Label htmlFor="featured">مشروع مميز</Label>
             </div>
           </div>
 
           <div>
-            <Label htmlFor="image_url">رابط الصورة</Label>
+            <Label htmlFor="media_files">إدراج صور</Label>
             <Input
-              id="image_url"
-              value={formData.image_url}
-              onChange={(e) => handleChange('image_url', e.target.value)}
-              placeholder="https://example.com/image.jpg"
+              id="media_files"
+              type="file"
+              multiple
+              accept="image/*"
+              onChange={(e) => setMediaFiles(Array.from(e.target.files || []))}
             />
           </div>
 
+          <div>
+            <Label>روابط YouTube</Label>
+            {youtubeLinks.map((link, index) => (
+              <Input
+                key={index}
+                value={link}
+                onChange={(e) => {
+                  const updated = [...youtubeLinks];
+                  updated[index] = e.target.value;
+                  setYoutubeLinks(updated);
+                }}
+                placeholder="https://youtube.com/..."
+                className="mb-2"
+              />
+            ))}
+            <Button type="button" variant="outline" onClick={() => setYoutubeLinks([...youtubeLinks, ''])}>
+              + إضافة رابط جديد
+            </Button>
+          </div>
+
           <div className="flex gap-4 pt-4">
-            <Button
-              type="submit"
-              disabled={isLoading}
-              className="bg-almanbar-gold hover:bg-almanbar-gold-dark text-almanbar-navy"
-            >
+            <Button type="submit" disabled={isLoading} className="bg-almanbar-gold text-almanbar-navy">
               {isLoading ? 'جارٍ الحفظ...' : (project ? 'تحديث' : 'إضافة')}
             </Button>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={onClose}
-            >
+            <Button type="button" variant="outline" onClick={onClose}>
               إلغاء
             </Button>
           </div>

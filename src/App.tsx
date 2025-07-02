@@ -11,6 +11,8 @@ import Auth from "./pages/Auth";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 import AllProjectsPage from './pages/AllProjectsPage'; // ✅ Import the new page
+import { ProjectsPage } from '@/pages/projects';
+import { ProjectDetailsPage } from '@/pages/ProjectDetailsPage';
 
 import { ServiceDetail } from '@/components/ServiceDetail';
 
@@ -29,7 +31,8 @@ const App = () => (
             <Route path="/auth" element={<Auth />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/services/:id" element={<ServiceDetail />} />
-                        <Route path="/projects" element={<AllProjectsPage />} /> {/* ✅ Add this line */}
+            <Route path="/projects" element={<AllProjectsPage />} /> 
+            <Route path="/projects/:id" element={<ProjectDetailsPage />} />
 
             <Route path="*" element={<NotFound />} />
           </Routes>
