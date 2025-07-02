@@ -50,11 +50,15 @@ export const Footer = forwardRef<HTMLDivElement>((_, ref) => {
             <div className="space-y-3">
               <div className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-almanbar-gold" />
-                <span className="text-gray-300">+ 966 50 123 4567</span>
+                <span className="text-gray-300">+ 966 55 205 4487</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Phone className="w-5 h-5 text-almanbar-gold" />
+                <span className="text-gray-300">+ 966 50 446 2195</span>
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-almanbar-gold" />
-                <span className="text-gray-300">info@almanbar.world</span>
+                <span className="text-gray-300">almalmnbr@gmail.com</span>
               </div>
               <div className="flex items-center gap-3">
                 <MapPin className="w-5 h-5 text-almanbar-gold" />
