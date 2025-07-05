@@ -17,7 +17,7 @@ export const ProjectDetailsPage = () => {
           <Skeleton className="h-6 w-full mb-2" />
           <Skeleton className="h-6 w-4/5" />
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           {[...Array(4)].map((_, i) => (
             <div key={i} className="aspect-[4/3] overflow-hidden rounded-xl">
@@ -25,7 +25,7 @@ export const ProjectDetailsPage = () => {
             </div>
           ))}
         </div>
-        
+
         <Skeleton className="h-8 w-32 mb-4" />
         <div className="space-y-4">
           {[...Array(2)].map((_, i) => (
@@ -44,8 +44,8 @@ export const ProjectDetailsPage = () => {
         </div>
         <h2 className="text-2xl font-bold text-red-600 mb-2">خطأ في تحميل المشروع</h2>
         <p className="text-gray-600 mb-6">تعذر العثور على المشروع المطلوب. يرجى المحاولة مرة أخرى.</p>
-        <Link 
-          to="/projects" 
+        <Link
+          to="/projects"
           className="inline-flex items-center px-4 py-2 bg-almanbar-navy text-white rounded-lg hover:bg-opacity-90 transition"
         >
           <FiChevronLeft className="ml-2" />
@@ -58,8 +58,8 @@ export const ProjectDetailsPage = () => {
   return (
     <div className="max-w-4xl mx-auto p-6">
       <div className="mb-2">
-        <Link 
-          to="/projects" 
+        <Link
+          to="/projects"
           className="inline-flex items-center text-almanbar-navy hover:text-opacity-80 transition"
         >
           <FiChevronLeft className="ml-1" />
@@ -68,12 +68,19 @@ export const ProjectDetailsPage = () => {
       </div>
 
       <header className="mb-8 border-b pb-6">
-        <h1 className="text-3xl md:text-4xl font-bold text-almanbar-navy mb-4">
+        <h1 className="text-3xl md:text-4xl font-bold text-almanbar-navy mb-2">
           {project.title_ar}
         </h1>
-        <p className="text-lg text-gray-700 leading-relaxed">
-          {project.description_ar}
-        </p>
+        <p className="text-base text-gray-600 mb-4">{project.category_ar}</p>
+
+        <ul className="list-disc space-y-2 text-gray-700 leading-relaxed ps-5">
+          {project.description_ar
+            .split('\n')
+            .filter(line => line.trim() !== '')
+            .map((line, index) => (
+              <li key={index}>{line.trim()}</li>
+            ))}
+        </ul>
       </header>
 
       {/* الصور */}
@@ -86,7 +93,7 @@ export const ProjectDetailsPage = () => {
             {project.project_media
               .filter(media => media.type === 'image')
               .map(media => (
-                <div 
+                <div
                   key={media.id}
                   className="aspect-[4/3] overflow-hidden rounded-xl shadow-lg transition-transform hover:scale-[1.02]"
                 >
@@ -97,7 +104,7 @@ export const ProjectDetailsPage = () => {
                     loading="lazy"
                   />
                 </div>
-            ))}
+              ))}
           </div>
         </section>
       )}
@@ -123,10 +130,12 @@ export const ProjectDetailsPage = () => {
                     />
                   </div>
                   <div className="p-3 bg-gray-50">
-                    <h3 className="font-medium text-gray-800">{media.title || 'فيديو المشروع'}</h3>
+                    <h3 className="font-medium text-gray-800">
+                      {media.title || 'فيديو المشروع'}
+                    </h3>
                   </div>
                 </div>
-            ))}
+              ))}
           </div>
         </section>
       )}
