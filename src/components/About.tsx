@@ -134,7 +134,7 @@ export const About = () => {
               )}
               
               <iframe 
-                src="https://heyzine.com/flip-book/0d23dd4a44.html" 
+                src="https://heyzine.com/flip-book/bb7ed6f4aa.html" 
                 width="100%" 
                 height="100%" 
                 frameBorder="0" 

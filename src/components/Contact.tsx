@@ -1,21 +1,20 @@
-
 import { useState } from 'react';
-import { Phone, Mail, MapPin, Clock, Send } from 'lucide-react';
+import { Phone, Mail, MapPin, Clock } from 'lucide-react';
 
 const contactInfo = [
   {
     icon: Phone,
     titleAr: 'اتصل بنا',
     titleEn: 'Call Us',
-    valueAr: '+966 50 123 4567',
-    valueEn: '+966 50 123 4567'
+    valueAr: '+966 50 466 2195',
+    valueEn: '+966 50 466 2195'
   },
   {
     icon: Mail,
     titleAr: 'راسلنا',
     titleEn: 'Email Us',
-    valueAr: 'info@almanbar.world',
-    valueEn: 'info@almanbar.world'
+    valueAr: 'almalmnbr@gmail.com',
+    valueEn: 'almalmnbr@gmail.com'
   },
   {
     icon: MapPin,
@@ -28,8 +27,8 @@ const contactInfo = [
     icon: Clock,
     titleAr: 'ساعات العمل',
     titleEn: 'Working Hours',
-    valueAr: 'الأحد - الخميس: 9 صباحاً - 6 مساءً',
-    valueEn: 'Sun - Thu: 9 AM - 6 PM'
+    valueAr: 'السبت - الخميس: 9 صباحاً - 12 مساءً',
+    valueEn: 'Sat - Thu: 9 AM - 12 AM'
   }
 ];
 
@@ -81,7 +80,22 @@ export const Contact = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-          {/* Contact Information */}
+          {/* Left: Google Map */}
+          <div className="animate-fade-in">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3630.619104525107!2d46.49648192486012!3d24.498650978167323!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e2f3d003e414241%3A0x3ef700cfd40f3e1a!2z2LTYsdmD2Kkg2LnYp9mE2YUg2KfZhNmF2YbYqNixINmE2YTYr9i52KfZitipINmI2KfZhNil2LnZhNin2YY!5e0!3m2!1sar!2s!4v1751745105369!5m2!1sar!2s"
+              width="100%"
+              height="450"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Almanbar Location"
+              className="rounded-2xl"
+            />
+          </div>
+
+          {/* Right: Contact Info */}
           <div className="space-y-8">
             <div className="animate-fade-in">
               <h3 className="text-2xl font-bold text-almanbar-navy mb-8">
@@ -101,7 +115,14 @@ export const Contact = () => {
                     <h4 className="font-semibold text-almanbar-navy mb-2">
                       {isArabic ? info.titleAr : info.titleEn}
                     </h4>
-                    <p className="text-gray-600">
+                    <p
+                      className="text-gray-600"
+                      style={
+                        info.icon === Phone
+                          ? { direction: 'ltr', unicodeBidi: 'plaintext', whiteSpace: 'nowrap' }
+                          : {}
+                      }
+                    >
                       {isArabic ? info.valueAr : info.valueEn}
                     </p>
                   </div>
@@ -115,120 +136,8 @@ export const Contact = () => {
                 {isArabic ? 'تابعنا على' : 'Follow Us'}
               </h4>
               <div className="flex gap-4">
-                {/* Social media icons would go here */}
+                {/* Add social icons here if needed */}
               </div>
-            </div>
-          </div>
-
-          {/* Contact Form */}
-          <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
-            <div className="glass-card p-8 rounded-2xl">
-              <h3 className="text-2xl font-bold text-almanbar-navy mb-6">
-                {isArabic ? 'أرسل رسالة' : 'Send Message'}
-              </h3>
-              
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-semibold text-almanbar-navy mb-2">
-                      {isArabic ? 'الاسم' : 'Name'}
-                    </label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-almanbar-gold focus:ring-2 focus:ring-almanbar-gold/20 transition-colors duration-300"
-                      placeholder={isArabic ? 'اسمك الكامل' : 'Your full name'}
-                      required
-                    />
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-semibold text-almanbar-navy mb-2">
-                      {isArabic ? 'رقم الهاتف' : 'Phone'}
-                    </label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-almanbar-gold focus:ring-2 focus:ring-almanbar-gold/20 transition-colors duration-300"
-                      placeholder={isArabic ? 'رقم هاتفك' : 'Your phone number'}
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-semibold text-almanbar-navy mb-2">
-                    {isArabic ? 'البريد الإلكتروني' : 'Email'}
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-almanbar-gold focus:ring-2 focus:ring-almanbar-gold/20 transition-colors duration-300"
-                    placeholder={isArabic ? 'بريدك الإلكتروني' : 'Your email address'}
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-semibold text-almanbar-navy mb-2">
-                    {isArabic ? 'الموضوع' : 'Subject'}
-                  </label>
-                  <select
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-almanbar-gold focus:ring-2 focus:ring-almanbar-gold/20 transition-colors duration-300"
-                    required
-                  >
-                    <option value="">
-                      {isArabic ? 'اختر الموضوع' : 'Select subject'}
-                    </option>
-                    <option value="media">
-                      {isArabic ? 'إنتاج الوسائط' : 'Media Production'}
-                    </option>
-                    <option value="photography">
-                      {isArabic ? 'التصوير الفوتوغرافي' : 'Photography'}
-                    </option>
-                    <option value="branding">
-                      {isArabic ? 'الهوية التجارية' : 'Branding'}
-                    </option>
-                    <option value="marketing">
-                      {isArabic ? 'التسويق الرقمي' : 'Digital Marketing'}
-                    </option>
-                    <option value="other">
-                      {isArabic ? 'أخرى' : 'Other'}
-                    </option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-semibold text-almanbar-navy mb-2">
-                    {isArabic ? 'الرسالة' : 'Message'}
-                  </label>
-                  <textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    rows={5}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-almanbar-gold focus:ring-2 focus:ring-almanbar-gold/20 transition-colors duration-300 resize-none"
-                    placeholder={isArabic ? 'اكتب رسالتك هنا...' : 'Write your message here...'}
-                    required
-                  ></textarea>
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full bg-almanbar-gold hover:bg-almanbar-gold-dark text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2"
-                >
-                  <Send className="w-5 h-5" />
-                  {isArabic ? 'إرسال الرسالة' : 'Send Message'}
-                </button>
-              </form>
             </div>
           </div>
         </div>
