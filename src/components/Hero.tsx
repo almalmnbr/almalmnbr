@@ -83,10 +83,10 @@ export const Hero = ({ footerRef }: HeroProps) => {
               </h1>
               <h2 className="text-2xl md:text-3xl text-almanbar-gold mb-4 font-english">ALMANBAR WORLD</h2>
               <p className="text-xl md:text-2xl text-gray-200 mb-8 max-w-4xl mx-auto leading-relaxed">
-                نحن نصنع قصصاً تلهم ونبدع محتوى يتحدث عن علامتكم التجارية بطريقة استثنائية
+             للدعاية والإعلان وتنظيم المعارض والمؤتمرات والإنتاج الإعلامي المرئي والمسموع
               </p>
               <p className="text-lg text-gray-300 mb-12 font-english max-w-3xl mx-auto">
-                We craft inspiring stories and create exceptional content that speaks for your brand
+For advertising, organizing exhibitions and conferences, and audiovisual media production.
               </p>
             </>
           ) : (
@@ -96,10 +96,10 @@ export const Hero = ({ footerRef }: HeroProps) => {
               </h1>
               <h2 className="text-2xl md:text-3xl text-almanbar-gold mb-4">عالم المنبر</h2>
               <p className="text-xl md:text-2xl text-gray-200 mb-8 max-w-4xl mx-auto leading-relaxed font-english">
-                We craft inspiring stories and create exceptional content that speaks for your brand
+For advertising, organizing exhibitions and conferences, and audiovisual media production.
               </p>
               <p className="text-lg text-gray-300 mb-12 max-w-3xl mx-auto">
-                نحن نصنع قصصاً تلهم ونبدع محتوى يتحدث عن علامتكم التجارية بطريقة استثنائية
+             للدعاية والإعلان وتنظيم المعارض والمؤتمرات والإنتاج الإعلامي المرئي والمسموع
               </p>
             </>
           )}
