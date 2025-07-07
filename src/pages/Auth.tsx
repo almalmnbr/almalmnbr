@@ -112,15 +112,7 @@ const Auth = () => {
             </Button>
           </form>
           
-          <div className="mt-4 text-center">
-            <Button
-              variant="link"
-              onClick={() => setIsLogin(!isLogin)}
-              className="text-almanbar-gold hover:text-almanbar-gold-dark"
-            >
-              {isLogin ? 'ليس لديك حساب؟ إنشاء حساب جديد' : 'لديك حساب؟ تسجيل الدخول'}
-            </Button>
-          </div>
+         
         </CardContent>
       </Card>
     </div>
