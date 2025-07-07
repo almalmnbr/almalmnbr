@@ -20,9 +20,8 @@ export default defineConfig(({ mode }) => ({
   build: {
     rollupOptions: {
       // إضافة ملف index-BQBqcQvy.js كـ external لمنع Vite من معالجته
-      external: ['/assets/index-BQBqcQvy.js'], // تأكد من وجود المسار هذا في بناء المشروع
+      external: ['/dist/assets/index-BQBqcQvy.js'], // تعديل المسار هنا ليعكس المسار الصحيح بعد البناء
     },
   },
-  // لتحديد مجلد public (إن كان لديك ملفات في مجلد assets)
-  publicDir: path.resolve(__dirname, 'public'),
+  publicDir: path.resolve(__dirname, 'public'),  // تعيين مجلد public إذا كان لديك ملفات ثابتة 
 }));
