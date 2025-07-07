@@ -123,7 +123,7 @@ export const Footer = forwardRef<HTMLDivElement>((_, ref) => {
             {/* Weddings & Events */}
             <div className="flex-1">
               <h5 className="text-almanbar-gold font-semibold mb-4 text-right">
-                {isArabic ? 'المنبر الإعلامي – قسم الأعراس والمناسبات' : 'Almanbar Media – Weddings & Events'}
+                {isArabic ? 'المنبر الإعلامي – قسم الحفلات والمناسبات' : 'Almanbar Media – Weddings & Events'}
               </h5>
               <div className="flex gap-4 justify-end flex-wrap">
                 {weddingLinks.map((s, i) => (
