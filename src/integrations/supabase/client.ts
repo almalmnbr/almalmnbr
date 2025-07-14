@@ -2,16 +2,10 @@
 import { createClient } from '@supabase/supabase-js';
 import type { Database } from './types';
 
-// Environment variables
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+const SUPABASE_URL = "https://fqxutjednlppvpsvbbbo.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZxeHV0amVkbmxwcHZwc3ZiYmJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk3MjM1NjIsImV4cCI6MjA2NTI5OTU2Mn0.WIkHFe8ea-VkMD64pX8lNybnx-PhqoMDVNLqzePoCto";
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZxeHV0amVkbmxwcHZwc3ZiYmJvIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0OTcyMzU2MiwiZXhwIjoyMDY1Mjk5NTYyfQ.Pc5pUQD4qBmnBJXo1e_UZ6CyNQuhUpjjUC6iefwvKb0'
+// Import the supabase client like this:
+// import { supabase } from "@/integrations/supabase/client";
 
-// Detect if running on server (Node.js) or client (browser)
-const isServer = typeof window === 'undefined';
-
-// Choose appropriate key
-const supabaseKey = isServer ? SUPABASE_SERVICE_ROLE_KEY : SUPABASE_ANON_KEY;
-
-// Create Supabase client instance
-export const supabase = createClient<Database>(SUPABASE_URL, supabaseKey);
+export const supabase = createClient(SUPABASE_URL,supabaseKey);
